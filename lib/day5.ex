@@ -29,19 +29,11 @@ defmodule AdventCode.Day5 do
     |> Enum.count()
   end
 
-  def range_coords({x1, y1, x2, y2}) when x1 == x2,
-    do: Enum.to_list(y1..y2) |> Enum.map(&{x1, &1})
+  def range_coords({x, y1, x, y2}),
+    do: Enum.to_list(y1..y2) |> Enum.map(&{x, &1})
 
-  def range_coords({x1, y1, x2, y2}) when y1 == y2,
-    do: Enum.to_list(x1..x2) |> Enum.map(&{&1, y1})
+  def range_coords({x1, y, x2, y}),
+    do: Enum.to_list(x1..x2) |> Enum.map(&{&1, y})
 
-  def range_coords({x1, y1, x2, y2}) do
-    xs = for x <- x1..x2, do: x
-    ys = for y <- y1..y2, do: y
-
-    Enum.with_index(xs)
-    |> Enum.map(fn {x, i} ->
-      {x, Enum.at(ys, i)}
-    end)
-  end
+  def range_coords({x1, y1, x2, y2}), do: Enum.zip(x1..x2, y1..y2)
 end
