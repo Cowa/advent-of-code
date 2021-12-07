@@ -12,32 +12,22 @@ defmodule AdventCode.Day7 do
   def part1 do
     {crabs, range} = read_input()
 
-    for crab <- crabs, to_pos <- range do
-      {crab, to_pos, abs(crab - to_pos)}
+    for to_pos <- range do
+      crabs
+      |> Enum.map(&abs(&1 - to_pos))
+      |> Enum.sum()
     end
-    |> min_fuel()
+    |> Enum.min()
   end
 
   def part2 do
     {crabs, range} = read_input()
 
-    for crab <- crabs, to_pos <- range do
-      steps = abs(crab - to_pos)
-      cost = Enum.sum(0..steps)
-
-      {crab, to_pos, cost}
+    for to_pos <- range do
+      crabs
+      |> Enum.map(&Enum.sum(0..abs(&1 - to_pos)))
+      |> Enum.sum()
     end
-    |> min_fuel()
-  end
-
-  defp min_fuel(cost_permutations) do
-    cost_permutations
-    |> Enum.group_by(&elem(&1, 1))
-    |> Map.values()
-    |> Enum.min_by(fn values ->
-      values |> Enum.map(&elem(&1, 2)) |> Enum.sum()
-    end)
-    |> Enum.map(&elem(&1, 2))
-    |> Enum.sum()
+    |> Enum.min()
   end
 end
